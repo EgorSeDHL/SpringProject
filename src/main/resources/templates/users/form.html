@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Форма пользователя</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="navbar :: navbar"></div>
+
+<div class="container mt-5">
+  <h1 th:text="${user.id != null ? 'Редактировать пользователя' : 'Добавить нового пользователя'}" class="mb-4"></h1>
+
+  <form th:action="@{/user}" th:object="${user}" method="post" class="needs-validation" novalidate>
+    <input type="hidden" th:if="${user.id != null}" th:field="${user.id}" />
+
+    <div class="form-group">
+      <label for="name">Имя:</label>
+      <input type="text" class="form-control" th:field="*{name}" required />
+      <div class="invalid-feedback">Пожалуйста, введите имя.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Пароль:</label>
+      <input type="text" class="form-control" th:field="*{password}" required minlength="8" />
+      <div class="invalid-feedback">Пожалуйста, введите пароль (не менее 8 символов).</div>
+    </div>
+
+    <div class="form-group">
+      <label for="role">Роль:</label>
+      <select th:field="*{role}" required>
+        <option value="ADMIN">ADMIN</option>
+        <option value="USER">USER</option>
+        <option value="CASHIER">CASHIER</option>
+      </select>
+      <div class="invalid-feedback">Пожалуйста, укажите роль.</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="/user" class="btn btn-secondary">Отмена</a>
+  </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      var forms = document.getElementsByClassName('needs-validation');
+      Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+</script>
+</body>
+</html>

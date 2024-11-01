@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Список пассажиров</title>
+  <!-- Подключение Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>  <div th:replace="navbar :: navbar"></div>
+
+<div class="container mt-5">
+  <h1>Список пассажиров</h1>
+
+  <a href="/passenger/new" class="btn btn-primary mb-3">Добавить нового пассажира</a>
+
+  <table class="table table-bordered">
+    <thead class="thead-light">
+    <tr>
+      <th>ID</th>
+      <th>Имя</th>
+      <th>Фамилия</th>
+      <th>Электронная почта</th>
+      <th>Номер телефона</th>
+      <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="passenger : ${passengers}">
+      <td th:text="${passenger.id}"></td>
+      <td th:text="${passenger.firstName}"></td>
+      <td th:text="${passenger.lastName}"></td>
+      <td th:text="${passenger.email}"></td>
+      <td th:text="${passenger.phoneNumber}"></td>
+      <td>
+        <a th:href="@{/passenger/edit/{id}(id=${passenger.id})}" class="btn btn-warning btn-sm">Редактировать</a>
+        <a th:href="@{/passenger/delete/{id}(id=${passenger.id})}" class="btn btn-danger btn-sm"
+           onclick="return confirm('Вы уверены, что хотите удалить этого пассажира?');">Удалить</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Подключение Bootstrap JS и jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

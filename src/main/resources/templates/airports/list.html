@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Список аэропортов</title>
+  <!-- Подключение Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="navbar :: navbar"></div>
+
+<div class="container mt-5">
+
+  <h1 class="mb-4">Список аэропортов</h1>
+
+  <a href="/airport/new" class="btn btn-primary mb-3">Добавить новый аэропорт</a>
+
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>Код</th>
+      <th>Название</th>
+      <th>Город</th>
+      <th>Страна</th>
+      <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="airport : ${airports}">
+      <td th:text="${airport.id}"></td>
+      <td th:text="${airport.code}"></td>
+      <td th:text="${airport.name}"></td>
+      <td th:text="${airport.city}"></td>
+      <td th:text="${airport.country}"></td>
+      <td>
+        <a th:href="@{/airport/edit/{id}(id=${airport.id})}" class="btn btn-sm btn-warning">Редактировать</a>
+        <a th:href="@{/airport/delete/{id}(id=${airport.id})}"
+           class="btn btn-sm btn-danger"
+           onclick="return confirm('Вы уверены, что хотите удалить этот аэропорт?');">Удалить</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Подключение Bootstrap JS и jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

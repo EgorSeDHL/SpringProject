@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Форма платежа</title>
+  <!-- Подключение Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>  <div th:replace="navbar :: navbar"></div>
+
+<div class="container mt-5">
+  <h1 th:text="${payment.id != null ? 'Редактировать платеж' : 'Добавить новый платеж'}"></h1>
+
+  <form th:action="@{/payment}" th:object="${payment}" method="post">
+    <input type="hidden" th:if="${payment.id != null}" th:field="*{id}" />
+
+    <h2>Сумма к оплате: <span th:text="${bo}"></span></h2>
+
+    <div class="form-group">
+      <label for="amount">Сумма:</label>
+      <input type="number" class="form-control" th:field="*{amount}" required />
+    </div>
+
+    <div class="form-group">
+      <label for="paymentMethod">Метод платежа:</label>
+      <select class="form-control" th:field="*{paymentMethod}" required>
+        <option th:value="'Credit Card'">Credit Card</option>
+        <option th:value="'PayPal'">PayPal</option>
+        <option th:value="'Cash'">Cash</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="booking">Бронирование:</label>
+      <select class="form-control" th:field="*{booking}" required>
+        <option th:each="booking : ${bookings}" th:value="${booking.id}"
+                th:text="'Бронирование от: ' + ${#temporals.format(booking.bookingDate, 'dd/MM/yyyy')} +
+                          ' Пассажир: ' + ${booking.passenger.firstName} + ' ' + ${booking.passenger.lastName}"></option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+    <a href="/payment" class="btn btn-secondary">Отмена</a>
+  </form>
+</div>
+
+<!-- Подключение Bootstrap JS и jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
